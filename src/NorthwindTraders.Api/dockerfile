@@ -1,0 +1,43 @@
+# =============================================================================
+# Stage 1 – restore & build
+# Place this file at: src/NorthwindTraders.Api/Dockerfile
+# Build context must be the src/ folder (set in docker-compose.yml)
+# =============================================================================
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Copy solution / project files first so layer cache is reused on code-only changes
+COPY NorthwindTraders.Api/NorthwindTraders.Api.csproj                         NorthwindTraders.Api/
+COPY NorthwindTraders.Application/NorthwindTraders.Application.csproj         NorthwindTraders.Application/
+COPY NorthwindTraders.Domain/NorthwindTraders.Domain.csproj                   NorthwindTraders.Domain/
+COPY NorthwindTraders.Infrastructure/NorthwindTraders.Infrastructure.csproj   NorthwindTraders.Infrastructure/
+
+# Restore dependencies
+RUN dotnet restore NorthwindTraders.Api/NorthwindTraders.Api.csproj
+
+# Copy full source and publish
+COPY . .
+RUN dotnet publish NorthwindTraders.Api/NorthwindTraders.Api.csproj \
+    -c Release \
+    -o /app/publish \
+    --no-restore
+
+# =============================================================================
+# Stage 2 – runtime image (lean)
+# =============================================================================
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+
+# Non-root user for security
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends adduser && \
+    rm -rf /var/lib/apt/lists/* && \
+    addgroup --system appgroup && adduser --system --ingroup appgroup --disabled-password appuser
+USER appuser
+
+COPY --from=build /app/publish .
+
+# Kestrel listens on 8080 (mapped to API_PORT in docker-compose)
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+
+ENTRYPOINT ["dotnet", "NorthwindTraders.Api.dll"]

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="NorthwindTraders.Api/NorthwindTraders.Api.csproj" />
+  <Project Path="NorthwindTraders.Application/NorthwindTraders.Application.csproj" />
+  <Project Path="NorthwindTraders.Domain/NorthwindTraders.Domain.csproj" />
+  <Project Path="NorthwindTraders.Infrastructure/NorthwindTraders.Infrastructure.csproj" />
+</Solution>

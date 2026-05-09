@@ -1,0 +1,66 @@
+# ── Environment ────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.local
+
+# ── .NET ───────────────────────────────────────────────────────
+**/bin/
+**/obj/
+**/[Bb]in/
+**/[Oo]bj/
+*.user
+*.suo
+*.userprefs
+*.csproj.user
+*.DotSettings.user
+
+# ── Node / frontend ────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/coverage/
+frontend/.eslintcache
+frontend/*.timestamp-*-*.mjs
+
+# ── Logs ───────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ── IDE / editor ───────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sln.docstates
+
+# ── OS ─────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.lnk
+
+# ── Agent / tooling metadata ───────────────────────────────────
+.agents/
+skills-lock.json
+
+# ── Test artifacts ─────────────────────────────────────────────
+coverage/
+__screenshots__/
+cypress/videos/
+cypress/screenshots/
+*.tsbuildinfo
+
+# ── Docker ─────────────────────────────────────────────────────
+.dockerignore
